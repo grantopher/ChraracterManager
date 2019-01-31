@@ -17,6 +17,12 @@
   },
   "homepage": "https://github.com/grantopher/ChraracterManager#readme",
   "dependencies": {
+    "express": "^4.16.4",
     "mongodb": "^3.1.13"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.1",
+    "@types/mongodb": "^3.1.19",
+    "typescript": "^3.2.4"
   }
 }

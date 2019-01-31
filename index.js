@@ -12,7 +12,7 @@ MongoClient.connect(url, (error, client) => {
 
 
 function genCharacter() {
-    return {
+return {
         name: "STEVE",
         race: "Dwarf"
     }
