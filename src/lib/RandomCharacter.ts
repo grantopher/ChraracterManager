@@ -1,31 +1,46 @@
-import {Character} from "./Character";
+import {backgrounds} from "../data/backgrounds";
+import {dndClasses} from "../data/dndClasses";
 import { names } from "../data/names";
 import { races } from "../data/races";
+import {Character} from "./Character";
+import {Dice} from "./Dice";
 
 export class RandomCharacter {
-    constructor() {
+    public static make(): Character {
         const char: Character = new Character(
-            this.randomString(names),
-            this.randomString(races),
-            [{name:'ranger', level: 1}],
+            RandomCharacter.randomString(names),
+            RandomCharacter.randomString(races),
+            [{
+                level: 1,
+                name: RandomCharacter.randomString(dndClasses),
+            }],
             0,
-            'criminal',
-            'Mark Hamill',
+            this.randomString(backgrounds),
+            "Mark Hamill",
             8,
             {
-                strength: 10,
-                dexterity: 10,
-                constitution: 10,
-                intelligence: 10,
-                wisdom: 10,
-                charisma: 10,
+                charisma: RandomCharacter.randomStat(),
+                constitution: RandomCharacter.randomStat(),
+                dexterity: RandomCharacter.randomStat(),
+                intelligence: RandomCharacter.randomStat(),
+                strength: RandomCharacter.randomStat(),
+                wisdom: RandomCharacter.randomStat(),
             }
-        )
+        );
+        return char;
     }
 
-    private randomString(list: string[]): string {
-        const random_index: number = Math.floor(list.length * Math.random());
-        return list[random_index];
+    private static randomString(list: string[]): string {
+        const randomIndex: number = Math.floor(list.length * Math.random());
+        return list[randomIndex];
+    }
+
+    private static randomStat(): number {
+        const statRolls: number[] = [0, 0, 0, 0];
+        const bestThree: number[] = statRolls
+            .map(() => Dice.D(6))
+            .sort();
+        return bestThree[1] + bestThree[2] + bestThree[3];
     }
 
 }

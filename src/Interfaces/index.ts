@@ -2,11 +2,11 @@
 export interface ICharacter {
     name: string;
     race: string;
-    dnd_class: ICharacterClass[];
+    dndClass: ICharacterClass[];
     experience: number;
     background: string;
-    player_name: string;
-    hit_points: number;
+    playerName: string;
+    hitPoints: number;
     stats: IStatBlock;
 }
 

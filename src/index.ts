@@ -1,5 +1,6 @@
 import express, {Express, RequestHandler} from "express";
-import {ApplicationRequestHandler} from "express-serve-static-core";
+import {Character} from "./lib/Character";
+import {RandomCharacter} from "./lib/RandomCharacter";
 
 const app: Express = express();
 const port: number = 8080; // default port to listen
@@ -9,9 +10,9 @@ app.get( "/", ( req, res ) => {
     res.send( "Hello world!" );
 } );
 
-app.get('/randomChar', async (req, res) => {
-
-    res.send('');
+app.get("/randomChar", async (req, res) => {
+    const char: Character = RandomCharacter.make();
+    res.send(JSON.stringify(char));
 });
 
 // start the Express server

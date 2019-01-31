@@ -1,15 +1,15 @@
-import {ICharacter, ICharacterClass, IStatBlock} from '../Interfaces';
+import {ICharacter, ICharacterClass, IStatBlock} from "../Interfaces";
 
-export class Character implements ICharacter{
+export class Character implements ICharacter {
 
     constructor(
         public name: string,
         public race: string,
-        public dnd_class: ICharacterClass[],
+        public dndClass: ICharacterClass[],
         public experience: number,
         public background: string,
-        public player_name: string,
-        public hit_points: number,
+        public playerName: string,
+        public hitPoints: number,
         public stats: IStatBlock,
     ) {}
 }
