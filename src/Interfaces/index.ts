@@ -2,7 +2,7 @@
 export interface ICharacter {
     name: string;
     race: string;
-    class: ICharacterClass[];
+    dnd_class: ICharacterClass[];
     experience: number;
     background: string;
     player_name: string;
