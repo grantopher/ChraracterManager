@@ -1,7 +1,7 @@
-import {backgrounds} from "../data/backgrounds";
-import {dndClasses} from "../data/dndClasses";
-import { names } from "../data/names";
-import { races } from "../data/races";
+import {backgrounds} from "../lists/backgrounds";
+import {dndClasses} from "../lists/dndClasses";
+import { names } from "../lists/names";
+import { races } from "../lists/races";
 import {Character} from "./Character";
 import {Dice} from "./Dice";
 
