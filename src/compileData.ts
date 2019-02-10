@@ -35,7 +35,7 @@ paths.forEach((relpath: string) => {
 
 function handleExtensions(baseItem: any, relpath: string, itempath: string): any {
     return baseItem.extensions.reduce((all: any[], extensionName: string) => {
-        const extension: any = getFromJSON(`${relpath}/${itempath}.${extensionName}`);
+        const extension: any = getFromJSON(`${relpath}/${itempath.toLowerCase()}.${extensionName.toLowerCase()}`);
         const fullExtension: any = deepAssign(extension, baseItem);
         delete fullExtension.extensions;
         return [

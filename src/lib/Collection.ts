@@ -1,95 +1,36 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import {CommandProgram} from './CommandProgram';
 
-export class Collection {
-    private static getJSONFromPath(relpath: string): any {
-        try {
-            return JSON.parse(
-                String(fs.readFileSync(
-                    path.join(__dirname,
-                        `${relpath}.json`
-                    )
-                ))
-            );
-        } catch (e) {
-            console.warn(`could not find file at path: ${relpath}`);
-        }
+export class Collection<ICollectionType extends IBaseCollection> {
+    private static load(type: string) {
+        return JSON.parse(
+            String(fs.readFileSync(
+                path.join(__dirname, `../../data/dist/${type}.json`),
+            ))
+        );
+    }
+    private readonly all: ICollectionType[];
+    private readonly byID: {[key: string]: ICollectionType};
+    private readonly idList: string[];
+
+    constructor(
+        private type: string,
+        private cmd: CommandProgram,
+        private question: string
+    ) {
+        this.all = Collection.load(type);
+        this.byID = this.mapById();
+        this.idList = this.all.map((col: ICollectionType) => col.id);
     }
 
-    private static IDExists(item: IJSONCollection): void {
-        if (!item.id) {
-            throw new Error('All collection items must have ID');
-        }
-    }
-
-    private static deepAssign(target: any, from: any): any {
-        const clone: any = Object.assign({}, from);
-        for (const item in target) {
-            if (target.hasOwnProperty(item)) {
-                if (target[item] instanceof Array) {
-                    clone[item] = [
-                        ...(clone[item] || []),
-                        ...target[item]
-                    ];
-                } else if (target[item] instanceof Object) {
-                    clone[item] = {
-                        ...(target[item] || {}),
-                        ...clone[item]
-                    };
-                } else {
-                    clone[item] = target[item];
-                }
-            }
-        }
-        return clone;
-    }
-
-    private all: any[];
-
-    private byID: any;
-
-    constructor(public name: string, private base: string) {
-        const list: string[] = Collection.getJSONFromPath(`${base}/${name}`);
-        this.all = list.reduce((all: any[], item: any) => {
-            const baseItem: IJSONCollection = Collection.getJSONFromPath(`${base}/${item}`);
-            if (!baseItem) {
-                return all;
-            }
-            Collection.IDExists(baseItem);
-            if (baseItem.extensions) {
-                return [
-                    ...baseItem.extensions.map((extension: any) => {
-                        const extendedItem: any = Collection.getJSONFromPath(`${base}/${item}.${extension}`);
-                        Collection.IDExists(extendedItem);
-                        return Collection.deepAssign(extendedItem, baseItem);
-                    }),
+    private mapById() {
+        return this.all.reduce((all: ICollectionType[], item: ICollectionType) => {
+                return {
+                    [item.id]: item,
                     ...all
-                ];
-            }
-            return [
-                baseItem,
-                ...all,
-            ];
-        }, []);
-        this.byID = this.all.reduce((all: any, item: any) => {
-            return {
-                [item.id]: item,
-                ...all
-            };
-        }, {});
-    }
-
-    public getKV(): string[] {
-        return this.all.reduce((all, item) => {
-            return {
-                [item.id]: item.name,
-                ...all,
-            };
-        }, {});
-    }
-
-    public getProp(id: string, prop: string): any {
-        return this.byID[id] && this.byID[id][prop];
+                };
+            }, {});
     }
 
     public hasItemWithProp(match: string, prop: string) {
@@ -100,12 +41,13 @@ export class Collection {
         return this.byID[id];
     }
 
-    public getList(): string[] {
-        return this.all.map((item) => item.name);
+    public async selectFromAll(): Promise<ICollectionType> {
+        const id: string =  await this.cmd.queryUserList(this.question, this.idList);
+        return this.byID[id];
     }
 }
 
-interface IJSONCollection {
-    extensions: string[];
+interface IBaseCollection {
+    name: string;
     id: string;
 }

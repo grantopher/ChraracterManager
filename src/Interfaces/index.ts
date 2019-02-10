@@ -1,11 +1,13 @@
-import {Collection} from '../lib/Collection';
+import {IBackgrounds} from './IBackgrounds';
+import {IClass} from './IClass';
+import {IRace} from './IRace';
 
 export interface ICharacter {
     name: string;
-    race: string;
+    race: IRace;
     dndClass: ICharacterClass[];
     experience: number;
-    background: string;
+    background: IBackgrounds;
     playerName: string;
     hitPoints: number;
     stats: IStatBlock;
@@ -21,14 +23,6 @@ export interface IStatBlock {
 }
 
 export interface ICharacterClass {
-    name: string;
+    class: IClass;
     level: number;
-}
-
-export interface ISource {
-    races?: Collection;
-    classes?: Collection;
-    feats?: Collection;
-    items?: Collection;
-    backgrounds?: Collection;
 }

@@ -1,7 +1,6 @@
-import {Collection} from './Collection';
+import {IRace} from '../Interfaces/IRace';
+import * as fs from 'fs';
+import * as path from 'path';
 
-export class RaceCollection extends Collection {
-    constructor(name: string, base: string) {
-        super(name, base);
-    }
+export class RaceCollection {
 }

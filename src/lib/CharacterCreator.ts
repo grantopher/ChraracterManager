@@ -1,5 +1,7 @@
-import {ICharacter, ICharacterClass, ISource, IStatBlock} from '../Interfaces';
-import {dndClasses} from '../lists/dndClasses';
+import {ICharacter, ICharacterClass, IStatBlock} from '../Interfaces';
+import {IBackgrounds} from '../Interfaces/IBackgrounds';
+import {IClass} from '../Interfaces/IClass';
+import {IRace} from '../Interfaces/IRace';
 import {Character} from './Character';
 import {Collection} from './Collection';
 import { CommandProgram } from './CommandProgram';
@@ -8,9 +10,9 @@ import {RandomCharacter} from './RandomCharacter';
 export class CharacterCreator {
     public static async new(
         cmd: CommandProgram,
-        races: Collection,
-        classes: Collection,
-        backgrounds: Collection
+        races: Collection<IRace>,
+        classes: Collection<IClass>,
+        backgrounds: Collection<IBackgrounds>
     ): Promise<ICharacter> {
         // Predetermined:
         const experience: number = 0;
@@ -19,12 +21,12 @@ export class CharacterCreator {
         console.log('Lets build your character!');
         console.log('--------------------------');
         const name: string = await cmd.queryUser('Name: ');
-        const race: string = await cmd.queryUserCollection('Race: ', races);
-        const className: string = await cmd.queryUserCollection('Class: ', classes);
-        const dndClass: ICharacterClass = {name: className, level: 1};
-        const background: string = await cmd.queryUserCollection('Background: ', backgrounds);
+        const race: IRace = await races.selectFromAll();
+        const cClass: IClass = await classes.selectFromAll();
+        const dndClass: ICharacterClass = {class: cClass, level: 1};
+        const background: IBackgrounds = await backgrounds.selectFromAll();
         const stats: IStatBlock = await CharacterCreator.statBlock(cmd);
-        const hitPoints: number = classes.getProp(race.toLowerCase(), 'baseHealth');
+        const hitPoints: number = cClass.baseHealth;
         return new Character(
             name,
             race,
