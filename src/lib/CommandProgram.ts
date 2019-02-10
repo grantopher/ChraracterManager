@@ -25,7 +25,7 @@ export class CommandProgram {
                 return answer.toLowerCase();
             }
             console.log('Not an available option. Listing your options:');
-            console.log(list);
+            console.log(list.join('\n').replace('.',  ' '));
             console.log('\n');
         }
     }
