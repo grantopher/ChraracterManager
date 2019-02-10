@@ -1,6 +1,7 @@
 import {IBackgrounds} from './Interfaces/IBackgrounds';
 import {IClass} from './Interfaces/IClass';
 import {IRace} from './Interfaces/IRace';
+import {stat} from './lib/Character';
 import {CharacterCreator} from './lib/CharacterCreator';
 import {Collection} from './lib/Collection';
 import {CommandProgram} from './lib/CommandProgram';
@@ -22,6 +23,14 @@ const chars: CharacterData[] = [];
             classes,
             backgrounds,
         );
-        console.log(newChar);
+        console.log(`
+${newChar.name} has been created!
+Lets break it down:
+| STR | DEX | CON | INT | WIS | CHA |
+| ${newChar.statString(stat.strength)} | ${newChar.statString(stat.dexterity)} | ${newChar.statString(stat.constitution)} | ${newChar.statString(stat.intelligence)} | ${newChar.statString(stat.wisdom)} | ${newChar.statString(stat.charisma)} |
+
+| -- HP -- |
+| ${newChar.getHP()} |
+        `);
     }
 })();

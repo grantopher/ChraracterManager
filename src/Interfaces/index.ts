@@ -1,3 +1,4 @@
+import {stat} from '../lib/Character';
 import {IBackgrounds} from './IBackgrounds';
 import {IClass} from './IClass';
 import {IRace} from './IRace';
@@ -11,6 +12,9 @@ export interface ICharacter {
     playerName: string;
     hitPoints: number;
     stats: IStatBlock;
+    statString: (statType: stat) => string;
+    getStat: (statType: stat) => number;
+    getHP: () => number;
 }
 
 export interface IStatBlock {
