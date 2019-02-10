@@ -1,7 +1,6 @@
-import {ICharacter, ICharacterClass, IStatBlock} from "../Interfaces";
+import {ICharacter, ICharacterClass, IStatBlock} from '../Interfaces';
 
 export class Character implements ICharacter {
-
     constructor(
         public name: string,
         public race: string,

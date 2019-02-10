@@ -1,9 +1,9 @@
-import {backgrounds} from "../lists/backgrounds";
-import {dndClasses} from "../lists/dndClasses";
-import { names } from "../lists/names";
-import { races } from "../lists/races";
-import {Character} from "./Character";
-import {Dice} from "./Dice";
+import {backgrounds} from '../lists/backgrounds';
+import {dndClasses} from '../lists/dndClasses';
+import { names } from '../lists/names';
+import { races } from '../lists/races';
+import {Character} from './Character';
+import {Dice} from './Dice';
 
 export class RandomCharacter {
     public static make(): Character {
@@ -16,7 +16,7 @@ export class RandomCharacter {
             }],
             0,
             this.randomString(backgrounds),
-            "Mark Hamill",
+            'Mark Hamill',
             8,
             {
                 charisma: RandomCharacter.randomStat(),
@@ -25,7 +25,7 @@ export class RandomCharacter {
                 intelligence: RandomCharacter.randomStat(),
                 strength: RandomCharacter.randomStat(),
                 wisdom: RandomCharacter.randomStat(),
-            }
+            },
         );
         return char;
     }
@@ -35,7 +35,7 @@ export class RandomCharacter {
         return list[randomIndex];
     }
 
-    private static randomStat(): number {
+    public static randomStat(): number {
         const statRolls: number[] = [0, 0, 0, 0];
         const bestThree: number[] = statRolls
             .map(() => Dice.D(6))
