@@ -1,26 +1,30 @@
-import {ICharacter, ICharacterClass, IStatBlock} from '../Interfaces';
-import {backgrounds} from '../lists/backgrounds';
+import {ICharacter, ICharacterClass, ISource, IStatBlock} from '../Interfaces';
 import {dndClasses} from '../lists/dndClasses';
-import {races} from '../lists/races';
 import {Character} from './Character';
+import {Collection} from './Collection';
 import { CommandProgram } from './CommandProgram';
 import {RandomCharacter} from './RandomCharacter';
 
 export class CharacterCreator {
-    public static async new(cmd: CommandProgram): Promise<ICharacter> {
+    public static async new(
+        cmd: CommandProgram,
+        races: Collection,
+        classes: Collection,
+        backgrounds: Collection
+    ): Promise<ICharacter> {
         // Predetermined:
         const experience: number = 0;
         const playerName = await cmd.queryUser('Player Name: ');
-        console.log('----------');
-        console.log('Lets build your character!')
-        console.log('----------');
+        console.log('--------------------------');
+        console.log('Lets build your character!');
+        console.log('--------------------------');
         const name: string = await cmd.queryUser('Name: ');
-        const race: string = await cmd.queryUserOptions('Race: ', races);
-        const className: string = await cmd.queryUserOptions('Class: ', dndClasses);
+        const race: string = await cmd.queryUserCollection('Race: ', races);
+        const className: string = await cmd.queryUserCollection('Class: ', classes);
         const dndClass: ICharacterClass = {name: className, level: 1};
-        const background: string = await cmd.queryUserOptions('Background: ', backgrounds);
-        const hitPoints: number = Number(await cmd.queryUser('Health: '));
+        const background: string = await cmd.queryUserCollection('Background: ', backgrounds);
         const stats: IStatBlock = await CharacterCreator.statBlock(cmd);
+        const hitPoints: number = classes.getProp(race.toLowerCase(), 'baseHealth');
         return new Character(
             name,
             race,

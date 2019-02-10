@@ -1,3 +1,4 @@
+import {Collection} from '../lib/Collection';
 
 export interface ICharacter {
     name: string;
@@ -22,4 +23,12 @@ export interface IStatBlock {
 export interface ICharacterClass {
     name: string;
     level: number;
+}
+
+export interface ISource {
+    races?: Collection;
+    classes?: Collection;
+    feats?: Collection;
+    items?: Collection;
+    backgrounds?: Collection;
 }

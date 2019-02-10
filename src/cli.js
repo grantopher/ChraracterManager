@@ -37,15 +37,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var _this = this;
 exports.__esModule = true;
 var CharacterCreator_1 = require("./lib/CharacterCreator");
+var Collection_1 = require("./lib/Collection");
 var CommandProgram_1 = require("./lib/CommandProgram");
 var chars = [];
 (function () { return __awaiter(_this, void 0, void 0, function () {
-    var p, response, newChar;
+    var p, races, response, newChar;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 p = new CommandProgram_1.CommandProgram();
-                return [4 /*yield*/, p.queryUser('')];
+                console.log('Loading...');
+                races = new Collection_1.Collection('races', '../../data/races');
+                console.log(races.getList());
+                return [4 /*yield*/, p.queryUser('Welcome to my game!')];
             case 1:
                 response = _a.sent();
                 if (!(response === 'new')) return [3 /*break*/, 3];

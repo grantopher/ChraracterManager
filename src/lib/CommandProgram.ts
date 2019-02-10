@@ -1,5 +1,6 @@
 import * as readline from 'readline';
 import {Interface} from 'readline';
+import {Collection} from './Collection';
 
 export class CommandProgram {
     private appInterface: Interface = readline.createInterface({
@@ -16,17 +17,17 @@ export class CommandProgram {
                 });
         });
     }
-    public async queryUserOptions(question: string, list: string[]): Promise<string> {
+    public async queryUserCollection(question: string, collection: Collection): Promise<string> {
         let acceptable: boolean = false;
         while (!acceptable) {
             const answer: string = await this.queryUser(question);
-            if (list.indexOf(answer.toLowerCase()) > -1) {
+            if (collection.hasItemWithProp(answer.toLowerCase(), 'name')) {
                 acceptable = true;
-                return answer;
+                return collection.getID(answer.toLowerCase());
             }
             console.log('Not an available option. Listing your options:');
             console.log(
-                list.join(', ')
+                collection.getList()
             );
             console.log('\n');
         }
